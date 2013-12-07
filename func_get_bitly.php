@@ -5,7 +5,7 @@ function getBitlyUrl($url) {
 		$bitlyapikey='xx';
 				  
 		// you dont need to change below this line					
-          	$site_url=("http://api.bit.ly/shorten?version=2.0.1&longUrl=".$url."&login=".$bitlylogin."&apiKey=".$bitlyapikey); 
+                $site_url=("http://api.bit.ly/shorten?version=2.0.1&longUrl=".$url."&login=".$bitlylogin."&apiKey=".$bitlyapikey); 
 		$ch = curl_init();
 		$timeout = 5; // set to zero for no timeout
 		curl_setopt ($ch, CURLOPT_URL, $site_url);
