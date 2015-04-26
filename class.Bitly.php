@@ -1,46 +1,35 @@
 <?php
 /* 
  * $url	   = 'http://www.google.co.uk';
- * $class  = new getBitly('user','key');
- * $return = $class->getUrl('some url');
- *
+ * $class  = new getBitly(token');
+ * $return = $class->getUrl($url);
  * print $return;
  */
-
 class getBitly {
 	
-	function __construct($user,$key) {
+	function __construct($token) {
 		
-		$this->apiuser = $user;
-		$this->apikey  = $key;
-		
-		
+		$this->token = $token;
 	}
 
+	/**
+	 * Converts URL to a bitly URL &format=txt&
+	 *
+	 * @param  string $url
+	 * @return string $url
+	 */
+	function goBitly( $url ) {
+		$encoded_url = urlencode( $url );
+		$site_url    = ( "https://api-ssl.bitly.com/v3/shorten?format=txt&access_token={$this->token}&longUrl=$encoded_url" );
+		$ch = curl_init($site_url);
+		curl_setopt ($ch, CURLOPT_RETURNTRANSFER, true);
+		$bitly_return = curl_exec($ch);
 
-	function getUrl($url) {
+		if ( $bitly_return !='' ) {
+			$url = $bitly_return;
+		}
 
-					  
-			// you dont need to change below this line					
-	                $site_url=("http://api.bit.ly/shorten?version=2.0.1&longUrl=".$url."&login=".$this->apiuser."&apiKey=".$this->apikey); 
-			$ch = curl_init();
-			$timeout = 5; // set to zero for no timeout
-			curl_setopt ($ch, CURLOPT_URL, $site_url);
-			curl_setopt ($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
-			ob_start();
-			curl_exec($ch);
-			curl_close($ch);
-			$bitlyurl=ob_get_contents();
-			ob_end_clean();
-			$bitlycontent = json_decode($bitlyurl,true);
-			$bitlyerror = $bitlycontent["errorCode"];
-		
-			if ($bitlyerror == 0){
-				$bitlyurl = $bitlycontent["results"][$url]["shortUrl"];
-				}
-			else $bitlyurl = $url;
-			
-	 return $bitlyurl;
+		return $url;
 	}
 }
 ?>
