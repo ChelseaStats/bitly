@@ -11,14 +11,10 @@
     // have some url
     $url	  = 'http://www.google.co.uk';
     // instantiate class with your API username and key
-    $class  = new getBitly('user','key');
+    $class  = new getBitly('token');
     // pass the class your url to the method, get the short one back
-    $return = $class->getUrl('some url');
+    $return = $class->getUrl('$url');
     // print it d'uh
     print $return;
     ?>
     
-###### Contributions
-
-It's on Github for a reason, pull requests welcome
-  
